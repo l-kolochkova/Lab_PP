@@ -1,10 +1,13 @@
-from datetime import datetime
-from flask_bcrypt import Bcrypt
+from datetime import datetime, timedelta
+from flask_bcrypt import Bcrypt, check_password_hash
 from gevent.pywsgi import WSGIServer
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, make_response, redirect, flash
 from flask_migrate import Manager, Migrate, MigrateCommand
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+import jwt
+from functools import wraps
+from flask_login import login_user, login_required, logout_user
 
 # from data_base.methods import add_user
 # from data_base.models import User, Note, Tag, History
@@ -12,6 +15,7 @@ from flask_marshmallow import Marshmallow
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1/lab_6'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'thisissecret'
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -113,6 +117,74 @@ history_schema = HistorySchema()
 histories_schema = HistorySchema(many=True)
 
 
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+        if not token:
+            #print(jsonify({'message': token}))
+            return jsonify({'message':  'Token is missing!!'}), 401
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+            current_user = User.query.filter_by(id=data['id']).first()
+        except:
+            return jsonify({'message': token + ' Token is invalid!!!'}), 401
+        return f(*args, **kwargs)
+
+    return decorated
+
+
+@app.route('/logout')
+def unprotected():
+    # logout_user()
+    return jsonify({'message': 'Anyone can view this!'})
+
+
+@app.route('/protected')
+@token_required
+def protected():
+    # if not current_user.admin:
+    #   return jsonify({'message': 'Cannot perform that function!'})
+    return jsonify({'message': 'This is only available for people with valid tokens.'})
+
+
+@app.route('/login')
+def login():
+    auth = request.authorization
+    if not auth or not auth.password or not auth.username:
+        return make_response('Could verify!', 401, {'WWW-authenticate': 'Basic realm="Login Required'})
+    user = User.query.filter_by(name=auth.username).first()
+    if not user:
+        return jsonify({'message': 'No user found!'})
+    if check_password_hash(user.password, auth.password):
+        token = jwt.encode({'id': user.id, 'exp': datetime.utcnow() + timedelta(minutes=30)},
+                           app.config['SECRET_KEY'])
+        return jsonify({'token': token.decode('UTF-8')})
+
+    return make_response('Could verify!', 401, {'WWW-authenticate': 'Basic realm="Login Required'})
+    # login = request.form.get('login')
+    # password = request.form.get('password')
+    #
+    # if login and password:
+    #     user = User.query.filter_by(login=login).first()
+    #
+    #     if user and check_password_hash(user.password, password):
+    #         login_user(user)
+    #
+    #         next_page = request.args.get('next')
+    #
+    #         return redirect(next_page)
+    #     else:
+    #         flash('Login or password is not correct')
+    # else:
+    #     flash('Please fill login and password fields')
+    #
+    # return "login complete"
+
+
 @app.route("/api/v1/hello-world-/<num_of_variant>")
 def hello_world(num_of_variant):
     # user = User("Yaroslav", "exp@smth.com", 22, 22)
@@ -123,7 +195,7 @@ def hello_world(num_of_variant):
     tag = Tag("chilling", 14, "on the beach")
     history = History("new_changes", 14, 13, "new user_3", d1)
     db.session.add(user)
-    #db.session.add(note)
+    # db.session.add(note)
     # db.session.add(tag)
     # db.session.add(history)
     db.session.commit()
@@ -131,6 +203,7 @@ def hello_world(num_of_variant):
 
 
 @app.route('/users', methods=['POST'])
+@token_required
 def add_user():
     name = request.json['name']
     email = request.json['email']
@@ -181,7 +254,10 @@ def get_users():
 
 # Get Single Products
 @app.route('/users/<id>', methods=['GET'])
+@token_required
 def get_user(id):
+    #if not current_user.id == 31:
+     #   return jsonify({'message': 'Cannot perform that function!'})
     user = User.query.get(id)
     return user_schema.jsonify(user)
 
@@ -220,6 +296,7 @@ def delete_user(id):
 
 
 @app.route('/note', methods=['POST'])
+@token_required
 def add_note():
     id_users = request.json['id_users']
     name = request.json['name']
@@ -249,6 +326,7 @@ def get_notes():
 
 # Get Single Products
 @app.route('/note/<id>', methods=['GET'])
+@token_required
 def get_note(id):
     note = Note.query.get(id)
     return note_schema.jsonify(note)
@@ -286,6 +364,7 @@ def delete_note(id):
 
 
 @app.route('/tags', methods=['POST'])
+@token_required
 def add_tag():
     name = request.json['name']
     id_note = request.json['id_note']
@@ -313,6 +392,7 @@ def get_tags():
 
 # Get Single Products
 @app.route('/tags/<id>', methods=['GET'])
+@token_required
 def get_tag(id):
     tag = Tag.query.get(id)
     return tag_schema.jsonify(tag)
@@ -347,6 +427,7 @@ def delete_tag(id):
 
 
 @app.route('/history', methods=['POST'])
+@token_required
 def add_history():
     name = request.json['name']
     id_note = request.json['id_note']
@@ -377,6 +458,7 @@ def get_histories():
 
 # Get Single Products
 @app.route('/history/<id>', methods=['GET'])
+@token_required
 def get_history(id):
     history = History.query.get(id)
     return history_schema.jsonify(history)
