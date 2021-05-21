@@ -23,7 +23,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_base/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_base/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/2cbd5ea64501_.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/versions/bad169bf5a18'.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_base/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +69,12 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\PP\Flask_lab\Labs_PP\Lab_1\templates" />
+      <recent name="E:\PP\Flask_lab\Labs_PP\Lab_1\public" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Flask" type="Python.FlaskServer">
       <module name="Flask" />
@@ -105,7 +111,9 @@
       <workItem from="1607600073547" duration="2164000" />
       <workItem from="1607612569152" duration="2241000" />
       <workItem from="1607615074479" duration="440000" />
-      <workItem from="1607615535262" duration="907000" />
+      <workItem from="1607615535262" duration="18620000" />
+      <workItem from="1607682850537" duration="1318000" />
+      <workItem from="1607702924991" duration="2755000" />
     </task>
     <task id="LOCAL-00001" summary="add id_user">
       <created>1607532148116</created>
@@ -137,33 +145,37 @@
     <option name="LAST_COMMIT_MESSAGE" value="add id_user" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1607279828424">
+    <state x="721" y="321" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607616654368">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1607279828424" />
-    <state width="1877" height="300" key="GridCell.Tab.0.bottom" timestamp="1607616419810">
+    <state x="721" y="321" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1607616654368" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1607632732655">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="300" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607616419810" />
-    <state width="1877" height="300" key="GridCell.Tab.0.center" timestamp="1607616419810">
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1607632732655" />
+    <state width="914" height="321" key="GridCell.Tab.0.bottom" timestamp="1607684180656">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="300" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607616419810" />
-    <state width="1877" height="300" key="GridCell.Tab.0.left" timestamp="1607616419810">
+    <state width="914" height="321" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607684180656" />
+    <state width="914" height="321" key="GridCell.Tab.0.center" timestamp="1607684180655">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="300" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607616419810" />
-    <state width="1877" height="300" key="GridCell.Tab.0.right" timestamp="1607616419810">
+    <state width="914" height="321" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607684180655" />
+    <state width="914" height="321" key="GridCell.Tab.0.left" timestamp="1607684180655">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="300" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607616419810" />
+    <state width="914" height="321" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607684180655" />
+    <state width="914" height="321" key="GridCell.Tab.0.right" timestamp="1607684180655">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="321" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607684180655" />
     <state x="1032" y="256" key="Vcs.Push.Dialog.v2" timestamp="1607532160460">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1032" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1607532160460" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Lab_1$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1607616419800" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Lab_1$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1607710047767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Flask$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1607300377613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

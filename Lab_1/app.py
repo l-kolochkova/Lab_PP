@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 from data_base import app
 # from data_base import User
 from data_base import manager
-
 # app = Flask(__name__)
 
 if __name__ == "__main__":
