@@ -1,7 +1,7 @@
 from datetime import datetime
-
-from data_base import db
-
+#
+from data_base import db, ma
+#
 
 class User(db.Model):
     __tablename__ = "users"
@@ -23,7 +23,7 @@ class User(db.Model):
 class Note(db.Model):
     __tablename__ = "notes"
     id = db.Column(db.Integer, primary_key=True)
-    id_users = db.Column(db.Integer, db.ForeignKey(User.id, ondelete="cascade"), unique=True)
+    id_users = db.Column(db.Integer, db.ForeignKey(User.id, ondelete="cascade"))
     name = db.Column(db.String(70), unique=True, nullable=False)
     count_of_users = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(70), nullable=False)
@@ -39,7 +39,7 @@ class Tag(db.Model):
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(70), unique=True, nullable=False)
-    id_note = db.Column(db.Integer, db.ForeignKey(Note.id, ondelete="cascade"), unique=True)
+    id_note = db.Column(db.Integer, db.ForeignKey(Note.id, ondelete="cascade"))
     description = db.Column(db.String(70), nullable=False)
 
     def __init__(self, name, id_note, description):
@@ -52,8 +52,8 @@ class History(db.Model):
     __tablename__ = "history"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(70), unique=True, nullable=False)
-    id_note = db.Column(db.Integer, db.ForeignKey(Note.id, ondelete="cascade"), unique=True)
-    id_users = db.Column(db.Integer, db.ForeignKey(User.id, ondelete="cascade"), unique=True)
+    id_note = db.Column(db.Integer, db.ForeignKey(Note.id, ondelete="cascade"))
+    id_users = db.Column(db.Integer, db.ForeignKey(User.id, ondelete="cascade"))
     description = db.Column(db.String(70), nullable=False)
     time_of_edit = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
@@ -63,3 +63,23 @@ class History(db.Model):
         self.id_users = id_users
         self.description = description
         self.time_of_edit = time_of_edit
+
+
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'email', 'stats_user', 'count_of_messages', 'password')
+
+
+class NoteSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'id_users', 'name', 'count_of_users', 'description')
+
+
+class TagSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'id_note', 'email', 'description')
+
+
+class HistorySchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'id_note', 'id_users', 'description', 'time_of_edit')
